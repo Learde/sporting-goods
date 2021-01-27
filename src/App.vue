@@ -1,32 +1,74 @@
 <template>
-  <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
+  <div id="app" :class="classes">
+    <div class="app__wrapper">
+      <div id="nav" class="app__nav">
+        <router-link to="/">Home</router-link> |
+        <router-link to="/about">About</router-link>
+      </div>
+      <router-view />
     </div>
-    <router-view />
   </div>
 </template>
 
+<script>
+export default {
+  computed: {
+    classes() {
+      let obj = {
+        'app': true,
+        'app--smaller': !this.$store.state.isLogin
+      }
+      return obj
+    }
+  }
+}
+</script>
+
 <style lang="scss">
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
-#nav {
-  padding: 30px;
+html {
+  font-size: 10px; // 1rem = 10px
+}
 
-  a {
-    font-weight: bold;
-    color: #2c3e50;
+body {
+  background-color: rgb(236, 233, 225);
+}
 
-    &.router-link-exact-active {
-      color: #42b983;
-    }
+.app {
+  display: flex;
+  max-width: 90rem;
+  padding: .8rem;
+
+  margin: 5rem auto 0;
+
+  font-family: Avenir, Helvetica, Arial, sans-serif;
+  text-align: center;
+
+  color: #2c3e50;
+  background-color: #fff;
+
+  &--smaller {
+    max-width: 30rem;
+  }
+
+  &__wrapper {
+    width: 100%;
+    margin: auto auto;
+    border: 1px solid #888;
+  }
+
+  &__nav {
+    display: none;
+  }
+
+  & h1 {
+    font-size: 2.8rem;
+    margin-bottom: 2.5rem;
   }
 }
 </style>
