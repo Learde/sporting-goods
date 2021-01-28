@@ -12,16 +12,16 @@
 
 <script>
 export default {
-  // beforeCreate() {
-  //   if (window.localStorage.login && window.localStorage.pass) {
-  //     this.$store.dispatch('tryLogin', {
-  //         'login': window.localStorage.login,
-  //         'pass': window.localStorage.pass
-  //     }).then(() => {
-  //         if(this.$store.state.isLoginPage) this.$router.push({ name: 'Home' })
-  //     })
-  //   }
-  // },
+  beforeCreate() {
+    if (window.localStorage.login && window.localStorage.pass) {
+      this.$store.dispatch('tryLogin', {
+          'login': window.localStorage.login,
+          'pass': window.localStorage.pass
+      }).then(() => {
+          if(this.$store.state.isLoginPage) this.$router.push({ name: 'Home' })
+      })
+    }
+  },
   computed: {
     classes() {
       let obj = {

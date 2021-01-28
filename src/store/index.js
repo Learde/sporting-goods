@@ -1,30 +1,52 @@
 import Vue from "vue";
 import Vuex from "vuex";
+import catalog from "../assets/catalog";
 
 Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
-    isLogin: false,
-    isLoginPage: false
+    isLogin: false, // Для проверки, авторизован ли пользователь
+    isLoginPage: false, // Для проверки, открыта ли страница с авторизацией (особые стили)
+    data: [] // Данные о товарах
+
   },
   mutations: {
-    login(state, payload) {
-      if (payload.login === "admin" && payload.pass === "admin") {
-        window.localStorage.login = payload.login;
-        window.localStorage.pass = payload.pass;
-        state.isLogin = true;
-      }
+    login(state) {
+      state.isLogin = true;
+    },
+    fillData(state, payload) { // payload - массив объектов с данными о товарах
+      state.data = payload;
     }
   },
   actions: {
-    tryLogin(context, payload) {
+    tryLogin({ commit }, payload) { // payload - объект с данными для авторизации
+      // eslint-disable-next-line no-unused-vars
+      return new Promise((resolve, reject) => { 
+        if (payload.login === "admin" && payload.pass === "admin") {
+          // Сохраняем данные, а не факт авторизации для повторной авторизации с этими данными
+          // полезно в случае изменения логина/пароля (авторизация не должна пройти в таком случае)
+          window.localStorage.login = payload.login; // Сохраняем данные администратора локально
+          window.localStorage.pass = payload.pass;   // чтобы не входить каждый раз заново
+
+          commit("login");
+          resolve();
+        } else {
+          reject();
+        }
+      });
+    },
+    getData({ commit }) {
       // eslint-disable-next-line no-unused-vars
       return new Promise((resolve, reject) => {
-        setTimeout(() => {
-          context.commit("login", payload);
+        setTimeout(() => { // Имитируем ожидание данных от сервера
+          // Так как бекенд не используется, при первом посещении приложения запишем данные локально
+          if (!window.localStorage.data) {
+            window.localStorage.data = catalog
+          }
+          commit("fillData", window.localStorage.data);
           resolve();
-        }, 300);
+        }, 250);
       });
     }
   },
