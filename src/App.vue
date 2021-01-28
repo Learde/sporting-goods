@@ -58,7 +58,7 @@ body {
   display: flex;
   max-width: 90rem;
   padding: .8rem;
-  margin: 5rem auto 0;
+  margin: 5rem auto 5rem;
   font-family: Avenir, Helvetica, Arial, sans-serif;
   text-align: center;
   color: #2c3e50;
