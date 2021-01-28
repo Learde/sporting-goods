@@ -32,13 +32,15 @@ const router = new VueRouter({
   routes
 });
 
-// Используем хук для перехода на роут с авторизацией при нежелательном переходе на другой роут
-// И отключаем правило eslint'а, которое здесь мешает
 // eslint-disable-block no-unused-vars
 router.beforeEach((to, from, next) => {
-  if (to.name !== 'Login' && !store.state.isLogin) next({ name: 'Login' })
-  else if (to.name === 'Login' && store.state.isLogin) next({ name: 'Home' })
+  // Если перемещаемся на страницу с логином, то меняем стиль приложения
+  if (to.name === 'Login' && !store.state.isLogin) store.state.isLoginPage = true
+  else store.state.isLoginPage = false
+  
+  if (to.name === 'Login' && store.state.isLogin) next({ name: 'Home' })
   else next()
+
 })
 
 export default router;

@@ -12,11 +12,21 @@
 
 <script>
 export default {
+  // beforeCreate() {
+  //   if (window.localStorage.login && window.localStorage.pass) {
+  //     this.$store.dispatch('tryLogin', {
+  //         'login': window.localStorage.login,
+  //         'pass': window.localStorage.pass
+  //     }).then(() => {
+  //         if(this.$store.state.isLoginPage) this.$router.push({ name: 'Home' })
+  //     })
+  //   }
+  // },
   computed: {
     classes() {
       let obj = {
         'app': true,
-        'app--smaller': !this.$store.state.isLogin
+        'app--smaller': this.$store.state.isLoginPage
       }
       return obj
     }
@@ -36,7 +46,11 @@ html {
 }
 
 body {
-  background-color: rgb(236, 233, 225);
+  background-color: rgba(236, 233, 225, .5);
+  background: rgba(236, 233, 225, .6) url('./assets/app_bgc.jpg');
+  background-repeat: no-repeat;
+  background-blend-mode: overlay;
+  background-size: cover;
 }
 
 .app {

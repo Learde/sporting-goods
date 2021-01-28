@@ -3,7 +3,7 @@
     <h1 class="login__heading">Авторизация</h1>
     <form class="login__form">
         <input class="login__input" type="text" placeholder="Логин" v-model="login">
-        <input class="login__input" type="text" placeholder="Пароль" v-model="pass">
+        <input class="login__input" type="password" placeholder="Пароль" v-model="pass">
         <input v-on:click="logIn" class="login__submit" type="submit" value="Войти">
     </form>
   </div>
@@ -23,6 +23,7 @@ export default {
                 'login': this.login,
                 'pass': this.pass
             }).then(() => {
+                
                 this.$router.push({ name: 'Home' })
             })
         }

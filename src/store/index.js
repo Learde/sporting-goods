@@ -5,11 +5,14 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
-    isLogin: false
+    isLogin: false,
+    isLoginPage: false
   },
   mutations: {
     login(state, payload) {
       if (payload.login === "admin" && payload.pass === "admin") {
+        window.localStorage.login = payload.login;
+        window.localStorage.pass = payload.pass;
         state.isLogin = true;
       }
     }
@@ -21,7 +24,7 @@ export default new Vuex.Store({
         setTimeout(() => {
           context.commit("login", payload);
           resolve();
-        }, 1000);
+        }, 300);
       });
     }
   },
