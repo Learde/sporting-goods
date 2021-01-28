@@ -28,7 +28,15 @@ const routes = [
   {
     path: "/page/:page",
     name: "Page",
-    component: Page
+    component: Page,
+  },
+  {
+    path: "/page/",
+    name: "Fail Page",
+    alias: "/page",
+    beforeEnter: (to, from, next) => {
+      next("/page/1");
+    }
   },
   {
     path: "/login",

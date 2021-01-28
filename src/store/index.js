@@ -7,7 +7,8 @@ Vue.use(Vuex);
 export default new Vuex.Store({
   state: {
     isLogin: false, // Для проверки, авторизован ли пользователь
-    data: [] // Данные о товарах
+    data: [], // Данные о товарах
+    possiblePages: 0
 
   },
   mutations: {
@@ -16,6 +17,7 @@ export default new Vuex.Store({
     },
     fillData(state, payload) { // payload - массив объектов с данными о товарах
       state.data = payload;
+      state.possiblePages = Math.ceil(payload.length / 10);
     }
   },
   actions: {

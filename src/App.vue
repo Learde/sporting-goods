@@ -48,10 +48,6 @@ html {
 
 body {
   background: rgb(236, 233, 225);
-  background: rgba(236, 233, 225, .35) url('./assets/app_bgc.jpg');
-  background-repeat: repeat-y;
-  background-blend-mode: overlay;
-  background-size: cover;
 }
 
 .app {

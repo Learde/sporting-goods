@@ -17,22 +17,18 @@
       :count="item.count"
       :img="item.images[0]"
     />
-    {{ page }}
   </div>
 </template>
 
 <script>
 import CatalogItem from "@/components/CatalogItem.vue";
 export default {
-  props: [
-    'page'
-  ],
   components: {
     CatalogItem
   },
   computed: {
     data() {
-      return this.$store.getters.getDataByPage(this.page);
+      return this.$store.getters.getDataByPage(this.$route.params.page);
     }
   }
 }
