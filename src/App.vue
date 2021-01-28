@@ -20,15 +20,17 @@ export default {
       }).then(() => {
           if(this.$store.state.isLoginPage) this.$router.push({ name: 'Home' })
       })
-    }
+    };
+
+    this.$store.dispatch('getData');
   },
   computed: {
     classes() {
       let obj = {
         'app': true,
         'app--smaller': this.$store.state.isLoginPage
-      }
-      return obj
+      };
+      return obj;
     }
   }
 }

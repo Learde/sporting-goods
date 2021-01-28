@@ -42,9 +42,9 @@ export default new Vuex.Store({
         setTimeout(() => { // Имитируем ожидание данных от сервера
           // Так как бекенд не используется, при первом посещении приложения запишем данные локально
           if (!window.localStorage.data) {
-            window.localStorage.data = catalog
+            window.localStorage.data = JSON.stringify(catalog);
           }
-          commit("fillData", window.localStorage.data);
+          commit("fillData", JSON.parse(window.localStorage.data));
           resolve();
         }, 250);
       });
