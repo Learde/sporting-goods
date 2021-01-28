@@ -22,6 +22,9 @@ const routes = [
       import(/* webpackChunkName: "about" */ "../views/About.vue")
   },
   {
+    path: "/page/:num"
+  },
+  {
     path: "/login",
     name: "Login",
     component: Login
@@ -34,10 +37,7 @@ const router = new VueRouter({
 
 // eslint-disable-block no-unused-vars
 router.beforeEach((to, from, next) => {
-  // Если перемещаемся на страницу с логином, то меняем стиль приложения
-  if (to.name === 'Login' && !store.state.isLogin) store.state.isLoginPage = true
-  else store.state.isLoginPage = false
-  
+  // Если уже залогинились, то отменяем принудительный переход на страницу с авторизацией
   if (to.name === 'Login' && store.state.isLogin) next({ name: 'Home' })
   else next()
 

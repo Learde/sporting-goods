@@ -7,7 +7,6 @@ Vue.use(Vuex);
 export default new Vuex.Store({
   state: {
     isLogin: false, // Для проверки, авторизован ли пользователь
-    isLoginPage: false, // Для проверки, открыта ли страница с авторизацией (особые стили)
     data: [] // Данные о товарах
 
   },

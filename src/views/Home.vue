@@ -1,6 +1,6 @@
 <template>
   <div class="home">
-    <h1>Каталог спортивных товаров</h1>
+    <h1 class="home__heading">Каталог спортивных товаров</h1>
     <Catalog class="home__catalog" />
   </div>
 </template>
@@ -16,3 +16,12 @@ export default {
   }
 };
 </script>
+
+<style lang="scss" scoped>
+  .home {
+    &__heading {
+      margin-top: 3rem;
+      margin-bottom: 0;
+    }
+  }
+</style>

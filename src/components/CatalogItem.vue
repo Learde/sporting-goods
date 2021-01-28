@@ -1,11 +1,11 @@
 <template>
-  <div class="catalog-item">
-    <img :src="img" :alt="name">
-    <h6>{{ name }}</h6>
-    <p>{{ category }}</p>
-    <p>{{ price }}</p>
-    <p>{{ count }}</p>
-  </div>
+  <article class="catalog-item">
+    <div class="catalog-item__img" :style="'background-image:url('+img+');'" :alt="name"></div>
+    <h6 class="catalog-item__heading catalog-item__item">{{ name }}</h6>
+    <p class="catalog-item__category catalog-item__item">{{ category }}</p>
+    <p class="catalog-item__price catalog-item__item">{{ price }}</p>
+    <p class="catalog-item__count catalog-item__item">{{ count }}</p>
+  </article>
 </template>
 
 <script>
@@ -15,5 +15,27 @@ export default {
 </script>
 
 <style lang="scss">
+  .catalog-item {
+    border: 1px solid #ddd;
+    transition: box-shadow .15s;
 
+    &:hover {
+      box-shadow: 0px 4px 7px 0px rgba(50, 50, 50, 0.08);
+    }
+
+    &__img {
+      height: 14rem;
+      background-size: contain;
+      background-repeat: no-repeat;
+      background-position: center center;
+    }
+
+    &__heading {
+      font-weight: normal;
+    }
+
+    &__item {
+      font-size: 1.6rem;
+    }
+  }
 </style>
