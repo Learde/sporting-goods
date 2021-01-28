@@ -1,23 +1,18 @@
 <template>
   <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png" />
-    <HelloWorld :msg="count" />
+    <h1>Каталог спортивных товаров</h1>
+    <Catalog class="home__catalog" />
   </div>
 </template>
 
 <script>
-// @ is an alias to /src
-import HelloWorld from "@/components/HelloWorld.vue";
+
+import Catalog from "@/components/Catalog.vue";
 
 export default {
   name: "Home",
   components: {
-    HelloWorld
-  },
-  computed: {
-    count() {
-      return this.$store.state.count;
-    }
+    Catalog
   }
 };
 </script>

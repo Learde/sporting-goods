@@ -1,5 +1,5 @@
 <template>
-  <div id="app" :class="classes">
+  <main id="app" :class="classes">
     <div class="app__wrapper">
       <div id="nav" class="app__nav">
         <router-link to="/">Home</router-link> |
@@ -7,7 +7,7 @@
       </div>
       <router-view />
     </div>
-  </div>
+  </main>
 </template>
 
 <script>
@@ -46,8 +46,8 @@ html {
 }
 
 body {
-  background-color: rgba(236, 233, 225, .5);
-  background: rgba(236, 233, 225, .6) url('./assets/app_bgc.jpg');
+  background: rgb(236, 233, 225);
+  background: rgba(236, 233, 225, .35) url('./assets/app_bgc.jpg');
   background-repeat: no-repeat;
   background-blend-mode: overlay;
   background-size: cover;
@@ -57,12 +57,9 @@ body {
   display: flex;
   max-width: 90rem;
   padding: .8rem;
-
   margin: 5rem auto 0;
-
   font-family: Avenir, Helvetica, Arial, sans-serif;
   text-align: center;
-
   color: #2c3e50;
   background-color: #fff;
 
