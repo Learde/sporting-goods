@@ -17,14 +17,16 @@
       :count="item.count"
       :img="item.images[0]"
     />
+    <Pagination />
   </div>
 </template>
 
 <script>
 import CatalogItem from "@/components/CatalogItem.vue";
+import Pagination from "@/components/Pagination.vue";
 export default {
   components: {
-    CatalogItem
+    CatalogItem, Pagination
   },
   computed: {
     data() {

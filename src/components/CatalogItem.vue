@@ -3,7 +3,7 @@
     <div class="catalog-item__img" :style="'background-image:url('+img+');'" :alt="name"></div>
     <h6 class="catalog-item__heading catalog-item__item">{{ name }}</h6>
     <p class="catalog-item__category catalog-item__item">{{ category }}</p>
-    <p class="catalog-item__price catalog-item__item">{{ price }}</p>
+    <p class="catalog-item__price catalog-item__item">{{ price }}р</p>
     <p class="catalog-item__count catalog-item__item">{{ count }}</p>
   </article>
 </template>
