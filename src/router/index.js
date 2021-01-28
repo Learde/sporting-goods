@@ -2,6 +2,7 @@ import Vue from "vue";
 import VueRouter from "vue-router";
 import Home from "../views/Home.vue";
 import Login from "../views/Login.vue";
+import Page from "../views/Page.vue";
 import store from "../store/index";
 
 Vue.use(VueRouter);
@@ -10,7 +11,10 @@ const routes = [
   {
     path: "/",
     name: "Home",
-    component: Home
+    component: Home,
+    beforeEnter: (to, from, next) => {
+      next({ path: '/page/1' });
+    }
   },
   {
     path: "/about",
@@ -22,7 +26,9 @@ const routes = [
       import(/* webpackChunkName: "about" */ "../views/About.vue")
   },
   {
-    path: "/page/:num"
+    path: "/page/:page",
+    name: "Page",
+    component: Page
   },
   {
     path: "/login",

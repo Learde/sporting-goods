@@ -49,5 +49,12 @@ export default new Vuex.Store({
       });
     }
   },
+  getters: {
+    getDataByPage: state => page => {
+      const start = (page - 1) * 10;
+      const end = page * 10;
+      return state.data.slice(start, end);
+    }
+  },
   modules: {}
 });
