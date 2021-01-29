@@ -56,6 +56,9 @@ export default new Vuex.Store({
       const start = (page - 1) * 10;
       const end = page * 10;
       return state.data.slice(start, end);
+    },
+    getItemById: state => id => {
+      return state.data.filter(a => Number(a.id) === Number(id))[0];
     }
   },
   modules: {}
