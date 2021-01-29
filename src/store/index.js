@@ -18,6 +18,18 @@ export default new Vuex.Store({
     fillData(state, payload) { // payload - массив объектов с данными о товарах
       state.data = payload;
       state.possiblePages = Math.ceil(payload.length / 10);
+    },
+    delete(state, id) {
+      console.log(id);
+      let elemIndex;
+      state.data.forEach((val,i) => {
+        if (val.id == id) {
+          elemIndex = i;
+        }
+      })
+      state.data.splice(elemIndex, 1);
+      state.possiblePages = Math.ceil(state.data.length / 10);
+      
     }
   },
   actions: {
@@ -39,7 +51,7 @@ export default new Vuex.Store({
     },
     getData({ commit }) {
       // eslint-disable-next-line no-unused-vars
-      return new Promise((resolve, reject) => {
+      return new Promise((resolve) => {
         setTimeout(() => { // Имитируем ожидание данных от сервера
           // Так как бекенд не используется, при первом посещении приложения запишем данные локально
           if (!window.localStorage.data) {
@@ -48,6 +60,13 @@ export default new Vuex.Store({
           commit("fillData", JSON.parse(window.localStorage.data));
           resolve();
         }, 250);
+      });
+    },
+    deleteItem({ commit, state }, id) {
+      return new Promise((resolve) => { 
+          commit("delete", id);
+          window.localStorage.data = JSON.stringify(state.data);
+          resolve();
       });
     }
   },

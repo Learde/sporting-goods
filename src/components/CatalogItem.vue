@@ -1,5 +1,5 @@
 <template>
-  <article class="catalog-item">
+  <article class="catalog-item" v-on:click="openItemPage">
     <div class="catalog-item__img" :style="'background-image:url('+img+');'" :alt="name"></div>
     <h6 class="catalog-item__heading catalog-item__item">{{ name }}</h6>
     <p class="catalog-item__category catalog-item__item">{{ category }}</p>
@@ -10,7 +10,13 @@
 
 <script>
 export default {
-  props: ['name', 'category', 'price', 'count', 'img']
+  props: ['name', 'category', 'price', 'count', 'img', 'id'],
+  methods: {
+    openItemPage: function() {
+      console.log(this.id);
+      this.$router.push('/item/'+this.id)
+    }
+  }
 }
 </script>
 

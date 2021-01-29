@@ -9,6 +9,8 @@
 export default {
   computed: {
     classesNext() {
+      console.log(Number(this.$store.state.possiblePages));
+      console.log(Number(this.$route.params.page));
       return {
         'pagination__button': true,
         'pagination__button--disable': Number(this.$store.state.possiblePages) === Number(this.$route.params.page)

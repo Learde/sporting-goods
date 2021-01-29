@@ -16,6 +16,7 @@
       :price="item.price"
       :count="item.count"
       :img="item.images[0]"
+      :id="item.id"
     />
     <Pagination />
   </div>
