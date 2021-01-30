@@ -26,6 +26,9 @@ export default new Vuex.Store({
     },
     edit(state, payload) {
       state.data[payload[0]] = payload[1];
+    },
+    create(state, obj) {
+      state.data.push(obj);
     }
   },
   actions: {
@@ -72,7 +75,7 @@ export default new Vuex.Store({
         resolve();
       });
     },
-    editFill({ commit, state }, obj) {
+    editField({ commit, state }, obj) {
       return new Promise((resolve) => {
         let index;
         state.data.forEach((val, i) => {
@@ -83,6 +86,15 @@ export default new Vuex.Store({
 
 
         commit("edit", [index, obj]);
+        window.localStorage.data = JSON.stringify(state.data);
+        resolve();
+      })
+    },
+    createField({ commit, state }, obj) {
+      return new Promise((resolve) => {
+        obj.id = state.data[state.data.length - 1].id + 1;
+
+        commit("create", obj);
         window.localStorage.data = JSON.stringify(state.data);
         resolve();
       })
@@ -101,8 +113,10 @@ export default new Vuex.Store({
       const allCategories = state.data.map(a => a.category);
       return [...new Set(allCategories)];
     },
-    getNames: state => {
-      return state.data.map(a => a.name.toUpperCase());
+    getNames: state => id => {
+      return state.data.map(a => {
+        if (a.id != id) return a.name.toUpperCase()
+      });
     }
   },
   modules: {}

@@ -2,7 +2,7 @@
   <form class="edit-form">
     <label class="edit-form__label" for="name">Название:</label>
     <input class="edit-form__input" id="name" type="text" v-model="newName" v-on:blur="validName">
-    <label id="category" class="edit-form__label">Категория:</label>
+    <label class="edit-form__label">Категория:</label>
     <select class="edit-form__input" name="category" id="category" v-model="newCategory">
       <option
         v-for="category in categories"
@@ -38,12 +38,37 @@
 
 <script>
 export default {
-  props: [
-    "name", "activeCategory", "description", "images", "count", "price"
-  ],
+  props: {
+    "name": {
+      default: "",
+      type: String
+    }, 
+    "activeCategory": {
+      default: "",
+      type: String
+    },
+    "description": {
+      default: "",
+      type: String
+    },
+    "images": {
+      type: Array,
+      default: () => {
+        return ["", "", ""]
+      }
+    }, 
+    "count": {
+      default: 1,
+      type: Number
+    }, 
+    "price": {
+      default: 1,
+      type: Number
+    }
+  },
   data() {
     return {
-      errors: {name: false, images: false, count: false, price: false, description: false},
+      errors: {name: false, images: false, count: false, price: false, description: false, category: false},
       newName: this.name,
       newImages: this.images,
       newCount: this.count,
@@ -59,7 +84,14 @@ export default {
   },
   methods: {
     validName: function() {
-      if ( !isNaN( Number( this.newName ) ) ||  this.newName.length < 3) {
+      const names = this.$store.getters.getNames(this.$route.params.id);
+      let sameName = false;
+      names.forEach(val => {
+        if (val == this.newName.toUpperCase()) {
+          sameName = true
+        }
+      });
+      if ( !isNaN( Number( this.newName ) ) || this.newName.length < 3 || sameName) {
         document.getElementById('name').classList.add('edit-form__input--red')
         this.errors.name = true;
       } else {
@@ -79,6 +111,19 @@ export default {
           elems[i].classList.remove('edit-form__input--red');
         }
         this.errors.images = false;
+      }
+
+      this.deleteVoid();
+    },
+    deleteVoid: function() {
+      if(!this.newImages[0]) {
+        this.newImages.splice(0,1);
+      }
+      if(!this.newImages[1]) {
+        this.newImages.splice(1,1);
+      }
+      if(!this.newImages[2]) {
+        this.newImages.splice(2,1);
       }
     },
     validDescription: function() {
@@ -114,12 +159,22 @@ export default {
         document.getElementById('price').classList.remove('edit-form__input--red');
       }
     },
+    validCategory: function() {
+      if (this.newCategory == '') {
+        this.errors.category = true
+        document.getElementById('category').classList.add('edit-form__input--red');
+      } else {
+        this.errors.category = false
+        document.getElementById('category').classList.remove('edit-form__input--red');
+      }
+    },
     submitChanges: function() {
       this.validName();
       this.validPhoto();
       this.validDescription();
       this.validCount();
       this.validPrice();
+      this.validCategory();
 
       if (!this.errors.name && 
       !this.errors.description && 
@@ -137,9 +192,11 @@ export default {
         }
 
         if (this.$route.name === "Edit") {
-          this.$store.dispatch('editFill', obj);
-          this.$router.go(-1);
+          this.$store.dispatch("editField", obj);
+        } else if (this.$route.name === "Create") {
+          this.$store.dispatch("createField", obj);
         }
+        this.$router.go(-1);
       }
     }
   },

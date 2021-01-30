@@ -2,7 +2,7 @@
   <div class="page">
     <nav class="page__nav">
       <h1 class="page__heading">Каталог спортивных товаров</h1>
-      <div v-if="$store.state.isLogin" class="page__button">Создать товар</div>
+      <div v-if="$store.state.isLogin" v-on:click="$router.push('/create')" class="page__button">Создать товар</div>
       <div v-if="!$store.state.isLogin" v-on:click="$router.push('/login')" class="page__button">Войти</div>
     </nav>
     <Catalog 
