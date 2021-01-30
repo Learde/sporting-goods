@@ -64,4 +64,17 @@ export default {
     margin-left: auto;
   }
 }
+
+@media screen and (max-width: 380px) {
+  .page {
+    &__nav {
+      flex-direction: column-reverse;
+    }
+
+    &__button {
+      width: 14rem;
+      margin-bottom: 1rem;
+    }
+  }
+}
 </style>

@@ -29,7 +29,7 @@ export default {
     font-size: 1.6rem;
     background-color: rgb(238, 224, 202);
     cursor: pointer;
-    width: 8.63rem;
+    width: 9.1rem;
     margin: 1rem 0 0 2rem;
   }
 }
