@@ -4,6 +4,13 @@
 ### Логин: admin
 ### Пароль: admin
 
+## Использованные технологии:
+- Vue
+- Vue CLI
+- VueX
+- VueRouter
+- SCSS
+
 ## Установка зависимостей
 ```
 yarn install
