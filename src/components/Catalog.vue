@@ -58,7 +58,7 @@ export default {
   }
 
   &__table-item {
-    font-size: 1.8rem;
+    font-size: 1.4rem;
   }
 }
 </style>

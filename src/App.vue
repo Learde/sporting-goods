@@ -82,4 +82,15 @@ body {
     margin-bottom: 2.5rem;
   }
 }
+
+@media screen and (max-width: 640px) {
+  html {
+    font-size: 8px;
+  }
+}
+@media screen and (max-width: 500px) {
+  html {
+    font-size: 6px;
+  }
+}
 </style>
