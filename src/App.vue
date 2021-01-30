@@ -14,25 +14,28 @@
 export default {
   beforeCreate() {
     if (window.localStorage.login && window.localStorage.pass) {
-      this.$store.dispatch('tryLogin', {
-          'login': window.localStorage.login,
-          'pass': window.localStorage.pass
-      }).then(() => {
-          if(this.$store.state.isLoginPage) this.$router.push({ name: 'Home' })
-      })
-    };
+      this.$store
+        .dispatch("tryLogin", {
+          login: window.localStorage.login,
+          pass: window.localStorage.pass
+        })
+        .then(() => {
+          if (this.$store.state.isLoginPage)
+            this.$router.push({ name: "Home" });
+        });
+    }
 
-    this.$store.dispatch('getData');
+    this.$store.dispatch("getData");
   },
   computed: {
     classes() {
       return {
-        'app': true,
-        'app--smaller': this.$route.name === 'Login'
+        app: true,
+        "app--smaller": this.$route.name === "Login"
       };
     }
   }
-}
+};
 </script>
 
 <style lang="scss">
@@ -53,7 +56,7 @@ body {
 .app {
   display: flex;
   max-width: 90rem;
-  padding: .8rem;
+  padding: 0.8rem;
   margin: 5rem auto 5rem;
   font-family: Avenir, Helvetica, Arial, sans-serif;
   text-align: center;

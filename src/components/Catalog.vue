@@ -27,36 +27,38 @@ import CatalogItem from "@/components/CatalogItem.vue";
 import Pagination from "@/components/Pagination.vue";
 export default {
   components: {
-    CatalogItem, Pagination
+    CatalogItem,
+    Pagination
   },
   computed: {
     data() {
       return this.$store.getters.getDataByPage(this.$route.params.page);
     }
   }
-}
+};
 </script>
 
 <style lang="scss">
-  .Catalog {
-    padding: 3rem;
-    &__table-header, &__catalog-item {
-      display: grid;
-      grid-template-columns: 18rem 2fr 1fr 1fr 1fr;
-      padding: 2rem;
-      align-items: center;
-    }
-
-    &__catalog-item:not(:last-child) {
-      margin-bottom: 2rem;
-    }
-
-    &__table-header {
-      margin-bottom: .8rem;
-    }
-
-    &__table-item {
-      font-size: 1.8rem;
-    }
+.Catalog {
+  padding: 3rem;
+  &__table-header,
+  &__catalog-item {
+    display: grid;
+    grid-template-columns: 18rem 2fr 1fr 1fr 1fr;
+    padding: 2rem;
+    align-items: center;
   }
+
+  &__catalog-item:not(:last-child) {
+    margin-bottom: 2rem;
+  }
+
+  &__table-header {
+    margin-bottom: 0.8rem;
+  }
+
+  &__table-item {
+    font-size: 1.8rem;
+  }
+}
 </style>

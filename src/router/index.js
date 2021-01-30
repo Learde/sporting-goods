@@ -6,6 +6,7 @@ import Page from "../views/Page.vue";
 import ItemPage from "../views/ItemPage.vue";
 import Edit from "../views/Edit.vue";
 import Create from "../views/Create.vue";
+import Page404 from "../views/Page404.vue";
 import store from "../store/index";
 
 Vue.use(VueRouter);
@@ -16,7 +17,7 @@ const routes = [
     name: "Home",
     component: Home,
     beforeEnter: (to, from, next) => {
-      next({ path: '/page/1' });
+      next({ path: "/page/1" });
     }
   },
   {
@@ -32,7 +33,7 @@ const routes = [
   {
     path: "/page/:page",
     name: "Page",
-    component: Page,
+    component: Page
   },
   {
     path: "/page/",
@@ -51,6 +52,11 @@ const routes = [
     path: "/create",
     name: "Create",
     component: Create
+  },
+  {
+    path: "*",
+    name: "404",
+    component: Page404
   }
 ];
 
@@ -61,9 +67,8 @@ const router = new VueRouter({
 // eslint-disable-block no-unused-vars
 router.beforeEach((to, from, next) => {
   // Если уже залогинились, то отменяем принудительный переход на страницу с авторизацией
-  if (to.name === 'Login' && store.state.isLogin) next({ name: 'Home' })
-  else next()
-
-})
+  if (to.name === "Login" && store.state.isLogin) next({ name: "Home" });
+  else next();
+});
 
 export default router;
