@@ -19,17 +19,13 @@ export default new Vuex.Store({
       state.data = payload;
       state.possiblePages = Math.ceil(payload.length / 10);
     },
-    delete(state, id) {
-      console.log(id);
-      let elemIndex;
-      state.data.forEach((val,i) => {
-        if (val.id == id) {
-          elemIndex = i;
-        }
-      })
-      state.data.splice(elemIndex, 1);
+    delete(state, i) {
+      state.data.splice(i, 1);
       state.possiblePages = Math.ceil(state.data.length / 10);
       
+    },
+    edit(state, payload) {
+      state.data[payload[0]] = payload[1];
     }
   },
   actions: {
@@ -64,10 +60,32 @@ export default new Vuex.Store({
     },
     deleteItem({ commit, state }, id) {
       return new Promise((resolve) => { 
-          commit("delete", id);
-          window.localStorage.data = JSON.stringify(state.data);
-          resolve();
+        let elemIndex;
+        state.data.forEach((val,i) => {
+          if (val.id == id) {
+            elemIndex = i;
+          }
+        })
+
+        commit("delete", elemIndex);
+        window.localStorage.data = JSON.stringify(state.data);
+        resolve();
       });
+    },
+    editFill({ commit, state }, obj) {
+      return new Promise((resolve) => {
+        let index;
+        state.data.forEach((val, i) => {
+          if (Number(val.id) === Number(obj.id)) {
+            index = i;
+          }
+        })
+
+
+        commit("edit", [index, obj]);
+        window.localStorage.data = JSON.stringify(state.data);
+        resolve();
+      })
     }
   },
   getters: {
@@ -78,6 +96,13 @@ export default new Vuex.Store({
     },
     getItemById: state => id => {
       return state.data.filter(a => Number(a.id) === Number(id))[0];
+    },
+    getCategories: state => {
+      const allCategories = state.data.map(a => a.category);
+      return [...new Set(allCategories)];
+    },
+    getNames: state => {
+      return state.data.map(a => a.name.toUpperCase());
     }
   },
   modules: {}

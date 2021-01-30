@@ -2,6 +2,7 @@
   <div class="item">
     <nav class="item__nav">
       <div v-on:click="goBack" class="item__back">← Назад</div>
+      <div v-on:click="$router.push('/item/' + data.id + '/edit')" class="item__edit">Редактировать</div>
       <div v-on:click="showPopup" class="item__delete">Удалить</div>
     </nav>
     <h1 class="item__heading">{{ data.name }}</h1>
@@ -79,17 +80,20 @@ export default {
       display: flex;
     }
 
-    &__back, &__delete {
+    &__back, &__delete, &__edit {
       display: flex;
       justify-content: center;
-      padding: 1rem 0;
-      width: 10rem;
+      padding: 1rem 1rem;
       font-size: 1.6rem;
       background-color: rgb(238, 224, 202);
       cursor: pointer;
     }
 
     &__delete {
+      margin-left: 1.5rem;
+    }
+
+    &__edit {
       margin-left: auto;
     }
   }

@@ -4,6 +4,8 @@ import Home from "../views/Home.vue";
 import Login from "../views/Login.vue";
 import Page from "../views/Page.vue";
 import ItemPage from "../views/ItemPage.vue";
+import Edit from "../views/Edit.vue";
+import Create from "../views/Create.vue";
 import store from "../store/index";
 
 Vue.use(VueRouter);
@@ -20,10 +22,12 @@ const routes = [
   {
     path: "/item/:id",
     name: "Item",
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
     component: ItemPage
+  },
+  {
+    path: "/item/:id/edit",
+    name: "Edit",
+    component: Edit
   },
   {
     path: "/page/:page",
@@ -42,6 +46,11 @@ const routes = [
     path: "/login",
     name: "Login",
     component: Login
+  },
+  {
+    path: "/create",
+    name: "Create",
+    component: Create
   }
 ];
 

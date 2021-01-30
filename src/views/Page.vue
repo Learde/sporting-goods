@@ -1,6 +1,10 @@
 <template>
   <div class="page">
-    <h1 class="page__heading">Каталог спортивных товаров</h1>
+    <nav class="page__nav">
+      <h1 class="page__heading">Каталог спортивных товаров</h1>
+      <div v-if="$store.state.isLogin" class="page__button">Создать товар</div>
+      <div v-if="!$store.state.isLogin" v-on:click="$router.push('/login')" class="page__button">Войти</div>
+    </nav>
     <Catalog 
       class="page__catalog"
     />
@@ -31,9 +35,24 @@ export default {
 
 <style lang="scss" scoped>
   .page {
+    margin-top: 3rem;
     &__heading {
-      margin-top: 3rem;
       margin-bottom: 0;
+    }
+
+    &__nav {
+      display: flex;
+      padding: 0 3rem;
+    }
+
+    &__button {
+      display: flex;
+      justify-content: center;
+      padding: 1rem 1rem;
+      font-size: 1.6rem;
+      background-color: rgb(238, 224, 202);
+      cursor: pointer;
+      margin-left: auto;
     }
   }
 </style>

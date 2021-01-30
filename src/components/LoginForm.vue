@@ -20,7 +20,7 @@
           'login': this.login,
           'pass': this.pass
         }).then(() => {
-          this.$router.push({ name: 'Home' })
+          this.$router.push({ name: 'Home' });
         })
       }
     },
