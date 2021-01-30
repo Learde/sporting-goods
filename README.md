@@ -1,24 +1,20 @@
-# app
+# Вебприложение для работы с каталогом спортивных товаров
 
-## Project setup
+## Режим администратора (удаление, добавление и редактирование продуктов)
+### Логин: admin
+### Пароль: admin
+
+## Установка зависимостей
 ```
 yarn install
 ```
 
-### Compiles and hot-reloads for development
+### Запуск сервера для разработки
 ```
 yarn serve
 ```
 
-### Compiles and minifies for production
+### Билд проекта
 ```
 yarn build
 ```
-
-### Lints and fixes files
-```
-yarn lint
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
