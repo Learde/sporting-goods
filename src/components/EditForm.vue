@@ -70,7 +70,7 @@
         class="edit-form__button-delete"
         nameEvent="click-delete"
         v-on:click-delete="DeleteDescription(description.id)"
-        >Удалить азбац снизу</Button
+        >Удалить абзац снизу</Button
       >
       <textarea
         :key="'description' + description.id"
