@@ -70,7 +70,14 @@ export default {
         .dispatch("deleteItem", this.$route.params.id) // Диспатчим событие для удаления элемента
         .then(() => {
           this.$emit("unshow");
-          this.$router.go(-1); // Возращаемся на один переход назад
+          // Если на странице с удаленным товаром больше ничего нет, возращаемся на последнюю страницу с товарами
+          if (this.$store.state.lastPage > this.$store.state.possiblePages) {
+            let redirectPage = this.$store.state.possiblePages;
+            if (redirectPage == 0) redirectPage += 1;
+            this.$router.push("/page/" + redirectPage); // Возращаемся на последнюю страницу с товарами
+          } else {
+            this.$router.push("/page/" + this.$store.state.lastPage); // Возращаемся на страницу с товарами
+          }
         });
     }
   }

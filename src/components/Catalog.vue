@@ -13,10 +13,10 @@
       :key="item.id"
       :name="item.name"
       :category="item.category"
-      :price="item.price"
-      :count="item.count"
+      :price="Number(item.price)"
+      :count="Number(item.count)"
       :img="item.images[0]"
-      :id="item.id"
+      :id="Number(item.id)"
     />
     <Pagination />
   </div>

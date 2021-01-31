@@ -8,7 +8,8 @@ export default new Vuex.Store({
   state: {
     isLogin: false, // Для проверки, авторизован ли пользователь
     data: [], // Данные о товарах
-    possiblePages: 0 // Возможное количество страниц для пагинации
+    possiblePages: 0, // Возможное количество страниц для пагинации,
+    lastPage: 0 // Предыдущая страница
   },
   mutations: {
     login(state) {
@@ -23,6 +24,7 @@ export default new Vuex.Store({
       // i - индекс удаляемого элемента
       state.data.splice(i, 1); // удаляем 1 элемент, начиная с 1 позиции
       state.possiblePages = Math.ceil(state.data.length / 10); // Пересчитываем количество страниц
+      console.log(state.possiblePages);
     },
     edit(state, payload) {
       // payload - массив, где первый элемент - индекс изменяемого продукта,
@@ -32,6 +34,9 @@ export default new Vuex.Store({
     create(state, obj) {
       state.data.push(obj);
       state.possiblePages = Math.ceil(state.data.length / 10); // Пересчитываем количество страниц
+    },
+    writeLastPage(state, id) {
+      state.lastPage = id;
     }
   },
   actions: {
