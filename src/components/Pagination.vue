@@ -20,8 +20,8 @@ export default {
       return {
         pagination__button: true, // Кпнока становится серой, если следующей страницы нет
         "pagination__button--disable":
-          Number(this.$store.state.possiblePages) ===
-          Number(this.$route.params.page)
+          (Number(this.$store.state.possiblePages) ===
+          Number(this.$route.params.page)) || (Number(this.$store.state.possiblePages) === 0)
       };
     },
     classesPrev() {
