@@ -96,6 +96,7 @@ export default {
     font-size: 2rem;
     font-weight: normal;
     margin-bottom: 2.5rem;
+    text-transform: capitalize;
   }
 
   &__subheading {

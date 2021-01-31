@@ -125,9 +125,11 @@ export default new Vuex.Store({
       return state.data.filter(a => Number(a.id) === Number(id))[0];
     },
     getCategories: state => {
-      // Получаем массив всех категорий
-      const allCategories = state.data.map(a => a.category);
-      return [...new Set(allCategories)];
+      // Получаем массив всех категорий, делая первую букву заглавноой (чтобы не было одинаковых категорий)
+      const allCategories = state.data.map(
+        a => a.category[0].toUpperCase() + a.category.slice(1)
+      );
+      return [...new Set(allCategories)]; // удаляем повторяющиеся элементы
     },
     getNames: state => id => {
       // Получаем массив имен для проверки на повторение

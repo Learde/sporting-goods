@@ -73,5 +73,9 @@ export default {
   &__item {
     font-size: 1.6rem;
   }
+
+  &__category {
+    text-transform: capitalize;
+  }
 }
 </style>
