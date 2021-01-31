@@ -10,7 +10,8 @@
     />
     <label class="edit-form__label">Категория:</label>
     <select
-      class="edit-form__input"
+      v-if="!isNewCategory"
+      class="edit-form__input edit-form__category"
       name="category"
       id="category"
       v-model="newCategory"
@@ -19,6 +20,18 @@
         {{ category }}
       </option>
     </select>
+    <input
+      v-else
+      id="customCategory"
+      class="edit-form__input edit-form__category"
+      type="text"
+      v-model="newCustomCategory"
+      v-on:blur="validCategory"
+    />
+    <Button class="edit-form__button-toggle" nameEvent="toggle-mode" v-on:toggle-mode="toggleCategoryMode">
+      <template v-if="isNewCategory">Выбрать из списка</template>
+      <template v-else>Новая категория</template>
+    </Button>
     <label class="edit-form__label">Изображения (ссылки):</label>
     <input
       class="edit-form__input edit-form__image"
@@ -33,7 +46,7 @@
       v-on:blur="validPhoto"
     />
     <input
-      class="edit-form__input edit-form__image"
+      class="edit-form__input edit-form__image edit-form__image--last"
       type="text"
       v-model="newImages[2]"
       v-on:blur="validPhoto"
@@ -112,14 +125,17 @@ export default {
         count: false,
         price: false,
         description: false,
-        category: false
+        category: false,
+        customCategory: false
       },
       newName: this.name,
       newImages: this.images,
       newCount: this.count,
       newPrice: this.price,
       newDescription: this.description,
-      newCategory: this.activeCategory
+      newCategory: this.activeCategory,
+      isNewCategory: false,
+      newCustomCategory: ''
     };
   },
   computed: {
@@ -170,7 +186,7 @@ export default {
       this.newImages[0] = this.preventXSS(this.newImages[0]);
       this.newImages[1] = this.preventXSS(this.newImages[1]);
       this.newImages[2] = this.preventXSS(this.newImages[2]);
-      
+
       this.deleteVoid(); // Удаляем пустые строки
     },
     deleteVoid: function() {
@@ -225,20 +241,39 @@ export default {
       }
     },
     validCategory: function() {
-      if (this.newCategory == "") {
-        // Если не выбрана категория, то указываем на ошибку
-        document
-          .getElementById("category")
-          .classList.add("edit-form__input--red");
-        this.errors.category = true;
-      } else {
-        document
-          .getElementById("category")
-          .classList.remove("edit-form__input--red"); // Убираем стили
-        this.errors.category = false; // и убираем ошибку
-      }
+      if (!this.isNewCategory) {
+        this.errors.customCategory = false;
+        if (this.newCategory == "") {
+          // Если не выбрана категория, то указываем на ошибку
+          document
+            .getElementById("category")
+            .classList.add("edit-form__input--red");
+          this.errors.category = true;
+        } else {
+          document
+            .getElementById("category")
+            .classList.remove("edit-form__input--red"); // Убираем стили
+          this.errors.category = false; // и убираем ошибку
+        }
 
-      this.newCategory = this.preventXSS(this.newCategory);
+        this.newCategory = this.preventXSS(this.newCategory);
+      } else {
+        this.errors.category = false;
+        if (this.newCustomCategory == "") {
+          // Если не выбрана категория, то указываем на ошибку
+          document
+            .getElementById("customCategory")
+            .classList.add("edit-form__input--red");
+          this.errors.customCategory = true;
+        } else {
+          document
+            .getElementById("customCategory")
+            .classList.remove("edit-form__input--red"); // Убираем стили
+          this.errors.customCategory = false; // и убираем ошибку
+        }
+
+        this.newCategory = this.preventXSS(this.newCategory);
+      }
     },
     preventXSS: function(str) {
       if (!str) return;
@@ -254,6 +289,9 @@ export default {
         .replace(ap, "&#39;")
         .replace(ic, "&#34;");
     },
+    toggleCategoryMode: function() {
+      this.isNewCategory = !this.isNewCategory;
+    },
     submitChanges: function() {
       this.validName(); // Хоть методы и используются по событию потери фокуса
       this.validPhoto(); // все равно на всякий случай еще раз проверяем все поля
@@ -262,18 +300,28 @@ export default {
       this.validPrice();
       this.validCategory();
 
+      // переменная-булеан для сохранения результата проверок на ошибки
+      let validCategory = false;
+
+      // В зависимости от выбранного режима категорий, проверяем на наличие ошибок
+      if (this.isNewCategory && !this.errors.customCategory) validCategory = true;
+      else if (!this.isNewCategory && !this.errors.category) validCategory = true;
       if (
         !this.errors.name && // Проверяем на наличие хотя бы одной ошибки
         !this.errors.description &&
         !this.errors.images &&
         !this.errors.count &&
-        !this.errors.price
+        !this.errors.price &&
+        validCategory
       ) {
+        let category;
+        if (this.isNewCategory) category = this.newCustomCategory;
+        else category = this.newCategory;
         const obj = {
           // Если все хорошо, собираем новый объект
           id: this.$route.params.id,
           name: this.newName,
-          category: this.newCategory,
+          category: category,
           price: this.newPrice,
           count: this.newCount,
           images: this.newImages,
@@ -286,7 +334,7 @@ export default {
           this.$router.go(-1);
         } else if (this.$route.name === "Create") {
           this.$store.dispatch("createField", obj);
-          this.$router.push("/page/"+this.$store.state.possiblePages);
+          this.$router.push("/page/" + this.$store.state.possiblePages);
         }
       }
     }
@@ -307,17 +355,26 @@ export default {
     border: 1px solid #888;
     font-size: 1.6rem;
     padding: 0.8rem 1rem;
-  }
 
-  &__input {
     &--red {
       border: 1px solid red;
     }
   }
 
+  &__category {
+    height: 3.67rem;
+    margin-bottom: 0.8rem;
+
+    & option {
+      text-transform: capitalize;
+    }
+  }
+
   &__image {
-    &:not(:last-child) {
-      margin-bottom: 1rem;
+    margin-bottom: 1rem;
+
+    &--last {
+      margin-bottom: 2rem;
     }
   }
 
@@ -329,6 +386,12 @@ export default {
   &__button {
     font-size: 1.8rem;
     margin-top: 1.5rem;
+  }
+
+  &__button-toggle {
+    width: 35rem;
+    margin-top: 0;
+    margin-bottom: 2rem;
   }
 }
 </style>
