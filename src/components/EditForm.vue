@@ -57,11 +57,36 @@
     />
     <label class="edit-form__label" for="description">Описание:</label>
     <textarea
-      class="edit-form__input"
+      class="edit-form__input edit-form__textarea"
       id="description"
-      v-model="newDescription"
+      v-model="newDescription[0].text"
       v-on:blur="validDescription"
     ></textarea>
+    <!-- Дополнительные абзацы -->
+    <template v-for="description in newDescription.filter(a => a.id != 1)">
+      <Button
+        :key="'button' + description.id"
+        :id="'button' + description.id"
+        class="edit-form__button-delete"
+        nameEvent="click-delete"
+        v-on:click-delete="DeleteDescription(description.id)"
+        >Удалить азбац снизу</Button
+      >
+      <textarea
+        :key="'description' + description.id"
+        :id="'description' + description.id"
+        class="edit-form__input edit-form__textarea"
+        v-model="description.text"
+        v-on:blur="validDescription"
+      ></textarea>
+    </template>
+    <Button
+      class="edit-form__button-toggle"
+      nameEvent="click-add"
+      v-on:click-add="AddDescription"
+    >
+      Добавить абзац
+    </Button>
     <label class="edit-form__label" for="count">Количество:</label>
     <input
       class="edit-form__input"
@@ -95,16 +120,23 @@ export default {
   },
   props: {
     name: {
-      default: "",
-      type: String
+      type: String,
+      default: ""
     },
     activeCategory: {
-      default: "",
-      type: String
+      type: String,
+      default: ""
     },
     description: {
-      default: "",
-      type: String
+      type: Array,
+      default: () => {
+        return [
+          {
+            id: 1,
+            text: ""
+          }
+        ];
+      }
     },
     images: {
       type: Array,
@@ -113,11 +145,9 @@ export default {
       }
     },
     count: {
-      default: 1,
       type: Number
     },
     price: {
-      default: 1,
       type: Number
     }
   },
@@ -206,19 +236,31 @@ export default {
       }
     },
     validDescription: function() {
-      if (this.newDescription.length > 255) {
-        document
-          .getElementById("description")
-          .classList.add("edit-form__input--red"); // Если описание
+      let str = this.newDescription[0].text;
+      this.newDescription.forEach((val, i) => {
+        if (i == 0) return;
+        str += " " + val.text;
+      });
+
+      if (str.length > 255) {
+        const elems = document.getElementsByClassName("edit-form__textarea");
+        elems.forEach(val => {
+          val.classList.add("edit-form__input--red");
+        });
         this.errors.description = true; // слишком большое, указываем на ошибку
       } else {
-        document
-          .getElementById("description")
-          .classList.remove("edit-form__input--red"); // Убираем стили
+        const elems = document.getElementsByClassName("edit-form__textarea");
+        elems.forEach(val => {
+          val.classList.remove("edit-form__input--red");
+        });
         this.errors.description = false; // и убираем ошибку
       }
 
-      this.newDescription = this.preventXSS(this.newDescription);
+      this.newDescription.forEach((val, i) => {
+        this.newDescription[i].text = this.preventXSS(
+          this.newDescription[i].text
+        );
+      });
     },
     validCount: function() {
       if (this.newCount < 1) {
@@ -296,6 +338,19 @@ export default {
     toggleCategoryMode: function() {
       this.isNewCategory = !this.isNewCategory;
     },
+    AddDescription: function() {
+      this.newDescription.push({
+        id: this.newDescription[this.newDescription.length - 1].id + 1,
+        text: ""
+      });
+    },
+    DeleteDescription: function(id) {
+      let index;
+      this.newDescription.forEach((val, i) => {
+        if (val.id == id) index = i;
+      });
+      this.newDescription.splice(index, 1);
+    },
     submitChanges: function() {
       this.validName(); // Хоть методы и используются по событию потери фокуса
       this.validPhoto(); // все равно на всякий случай еще раз проверяем все поля
@@ -367,6 +422,10 @@ export default {
     }
   }
 
+  &__textarea {
+    margin-bottom: 0.8rem;
+  }
+
   &__category {
     height: 3.67rem;
     margin-bottom: 0.8rem;
@@ -398,6 +457,11 @@ export default {
     width: 35rem;
     margin-top: 0;
     margin-bottom: 2rem;
+  }
+
+  &__button-delete {
+    width: 35rem;
+    margin-bottom: 0.8rem;
   }
 }
 </style>

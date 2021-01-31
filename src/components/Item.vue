@@ -23,7 +23,11 @@
     <h2 class="item__category">Категория: {{ data.category }}</h2>
     <PhotoGallery :name="data.name" :images="data.images" />
     <h2 class="item__subheading">Описание</h2>
-    <p class="item__text">{{ data.description }}</p>
+    <div class="item__descriptions">
+      <p v-for="val in data.description" :key="val.id" class="item__text">
+        {{ val.text }}
+      </p>
+    </div>
     <h2 class="item__subheading">Количество: {{ data.count }}</h2>
     <h2 class="item__subheading">Цена: {{ data.price }}</h2>
 
@@ -120,6 +124,12 @@ export default {
 
   &__edit {
     margin-left: auto;
+  }
+
+  &__descriptions {
+    & p:not(:last-child) {
+      margin-bottom: 1.5rem;
+    }
   }
 }
 </style>
