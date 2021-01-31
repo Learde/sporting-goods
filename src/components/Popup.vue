@@ -5,14 +5,28 @@
         Вы уверены? Действие <span class="popup__red-text">нельзя</span> будет
         отменить
       </h2>
-      <div v-on:click="$emit('toggleEvent')" class="popup__button">Удалить</div>
-      <div v-on:click="$emit('unshow')" class="popup__button">Отмена</div>
+      <Button
+        v-on:toggle-event="$emit('toggle-event')"
+        nameEvent="toggle-event"
+        class="popup__button"
+        >Удалить</Button
+      >
+      <Button
+        v-on:unshow="$emit('unshow')"
+        nameEvent="unshow"
+        class="popup__button"
+        >Отмена</Button
+      >
     </div>
   </div>
 </template>
 
 <script>
+import Button from "@/components/Button.vue";
 export default {
+  components: {
+    Button
+  },
   props: {
     isVisible: {
       default: false,
@@ -25,6 +39,11 @@ export default {
         popup: true,
         "popup--visible": this.isVisible
       };
+    }
+  },
+  methods: {
+    cl: function() {
+      console.log(123);
     }
   }
 };
@@ -65,13 +84,7 @@ export default {
   }
 
   &__button {
-    display: flex;
-    justify-content: center;
-    padding: 1rem 0;
     width: 10rem;
-    font-size: 1.6rem;
-    background-color: rgb(238, 224, 202);
-    cursor: pointer;
   }
 
   &__red-text {

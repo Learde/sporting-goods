@@ -31,6 +31,7 @@ export default new Vuex.Store({
     },
     create(state, obj) {
       state.data.push(obj);
+      state.possiblePages = Math.ceil(state.data.length / 10); // Пересчитываем количество страниц
     }
   },
   actions: {

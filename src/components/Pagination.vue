@@ -1,12 +1,20 @@
 <template>
   <div class="pagination">
-    <div v-on:click="prevPage" :class="classesPrev">Предыдущая страница</div>
-    <div v-on:click="nextPage" :class="classesNext">Следующая страница</div>
+    <Button v-on:prevPage="prevPage" nameEvent="prevPage" :class="classesPrev"
+      >Предыдущая страница</Button
+    >
+    <Button v-on:nextPage="nextPage" nameEvent="nextPage" :class="classesNext"
+      >Следующая страница</Button
+    >
   </div>
 </template>
 
 <script>
+import Button from "@/components/Button.vue";
 export default {
+  components: {
+    Button
+  },
   computed: {
     classesNext() {
       return {
@@ -49,10 +57,7 @@ export default {
 
   &__button {
     padding: 1.25rem 0.8rem;
-    font-size: 1.6rem;
-    background-color: rgb(238, 224, 202);
     margin-top: 1rem;
-    cursor: pointer;
 
     &--disable {
       cursor: default;

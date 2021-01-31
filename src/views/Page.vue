@@ -2,20 +2,20 @@
   <div class="page">
     <nav class="page__nav">
       <h1 class="page__heading">Каталог спортивных товаров</h1>
-      <div
+      <Button
         v-if="$store.state.isLogin"
-        v-on:click="$router.push('/create')"
         class="page__button"
+        nameEvent="open-create"
+        v-on:open-create="$router.push('/create')"
+        >Создать товар</Button
       >
-        Создать товар
-      </div>
-      <div
+      <Button
         v-if="!$store.state.isLogin"
-        v-on:click="$router.push('/login')"
         class="page__button"
+        nameEvent="open-login"
+        v-on:open-login="$router.push('/login')"
+        >Войти</Button
       >
-        Войти
-      </div>
     </nav>
     <Catalog class="page__catalog" />
   </div>
@@ -23,6 +23,7 @@
 
 <script>
 import Catalog from "@/components/Catalog.vue";
+import Button from "@/components/Button.vue";
 
 export default {
   name: "Page",
@@ -37,7 +38,8 @@ export default {
     }
   },
   components: {
-    Catalog
+    Catalog,
+    Button
   }
 };
 </script>
@@ -55,12 +57,6 @@ export default {
   }
 
   &__button {
-    display: flex;
-    justify-content: center;
-    padding: 1rem 1rem;
-    font-size: 1.6rem;
-    background-color: rgb(238, 224, 202);
-    cursor: pointer;
     margin-left: auto;
   }
 }

@@ -1,21 +1,23 @@
 <template>
   <div class="item">
     <nav class="item__nav">
-      <div v-on:click="goBack" class="item__back">← Назад</div>
-      <div
+      <Button nameEvent="back" v-on:back="goBack" class="item__back"
+        >← Назад</Button
+      >
+      <Button
         v-if="$store.state.isLogin"
-        v-on:click="$router.push('/item/' + data.id + '/edit')"
+        nameEvent="open-edit"
+        v-on:open-edit="$router.push('/item/' + data.id + '/edit')"
         class="item__edit"
+        >Редактировать</Button
       >
-        Редактировать
-      </div>
-      <div
+      <Button
         v-if="$store.state.isLogin"
-        v-on:click="showPopup"
+        nameEvent="open-prompt"
+        v-on:open-prompt="showPopup"
         class="item__delete"
+        >Удалить</Button
       >
-        Удалить
-      </div>
     </nav>
     <h1 class="item__heading">{{ data.name }}</h1>
     <h2 class="item__category">Категория: {{ data.category }}</h2>
@@ -26,7 +28,7 @@
     <h2 class="item__subheading">Цена: {{ data.price }}</h2>
 
     <Popup
-      v-on:toggleEvent="deleteItem"
+      v-on:toggle-event="deleteItem"
       v-on:unshow="unshowPopup"
       :isVisible="isPopupVisible"
     />
@@ -34,12 +36,14 @@
 </template>
 
 <script>
+import Button from "@/components/Button.vue";
 import PhotoGallery from "@/components/PhotoGallery.vue";
 import Popup from "@/components/Popup.vue";
 export default {
   components: {
     PhotoGallery,
-    Popup
+    Popup,
+    Button
   },
   computed: {
     data() {
@@ -100,17 +104,6 @@ export default {
 
   &__nav {
     display: flex;
-  }
-
-  &__back,
-  &__delete,
-  &__edit {
-    display: flex;
-    justify-content: center;
-    padding: 1rem 1rem;
-    font-size: 1.6rem;
-    background-color: rgb(238, 224, 202);
-    cursor: pointer;
   }
 
   &__delete {

@@ -61,12 +61,21 @@
       v-model="newPrice"
       v-on:blur="validPrice"
     />
-    <div v-on:click="submitChanges" class="edit-form__button">Принять</div>
+    <Button
+      class="edit-form__button"
+      nameEvent="create-submit"
+      v-on:create-submit="submitChanges"
+      >Принять</Button
+    >
   </form>
 </template>
 
 <script>
+import Button from "@/components/Button.vue";
 export default {
+  components: {
+    Button
+  },
   props: {
     name: {
       default: "",
@@ -264,7 +273,7 @@ export default {
         } else if (this.$route.name === "Create") {
           this.$store.dispatch("createField", obj);
         }
-        this.$router.go(-1);
+        this.$router.push("/page/1");
       }
     }
   }
@@ -304,12 +313,7 @@ export default {
   }
 
   &__button {
-    display: flex;
-    justify-content: center;
-    padding: 1rem 1rem;
     font-size: 1.8rem;
-    background-color: rgb(238, 224, 202);
-    cursor: pointer;
     margin-top: 1.5rem;
   }
 }

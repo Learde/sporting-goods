@@ -12,17 +12,16 @@
       placeholder="Пароль"
       v-model="pass"
     />
-    <input
-      v-on:click="logIn"
-      class="login-form__submit"
-      type="submit"
-      value="Войти"
-    />
+    <Button v-on:login="logIn" nameEvent="login">Войти</Button>
   </form>
 </template>
 
 <script>
+import Button from "@/components/Button.vue";
 export default {
+  components: {
+    Button
+  },
   data() {
     return {
       login: null,
@@ -58,11 +57,7 @@ export default {
 
   &__submit {
     height: 4.5rem;
-    font-size: 1.6rem;
-    border: 0;
-    background-color: rgb(238, 224, 202);
     margin-top: 1rem;
-    cursor: pointer;
   }
 }
 </style>
