@@ -148,6 +148,8 @@ export default {
           .classList.remove("edit-form__input--red"); // Убираем стили
         this.errors.name = false; // и убираем ошибку
       }
+
+      this.newName = this.preventXSS(this.newName);
     },
     validPhoto: function() {
       const elems = document.getElementsByClassName("edit-form__image");
@@ -165,18 +167,22 @@ export default {
         this.errors.images = false; // и убираем ошибку
       }
 
+      this.newImages[0] = this.preventXSS(this.newImages[0]);
+      this.newImages[1] = this.preventXSS(this.newImages[1]);
+      this.newImages[2] = this.preventXSS(this.newImages[2]);
+      
       this.deleteVoid(); // Удаляем пустые строки
     },
     deleteVoid: function() {
-      if (!this.newImages[0]) {
+      if (!this.newImages[2]) {
         // Так как элемента всего 3, их можно просто перебрать
-        this.newImages.splice(0, 1);
+        this.newImages.splice(2, 1);
       }
       if (!this.newImages[1]) {
         this.newImages.splice(1, 1);
       }
-      if (!this.newImages[2]) {
-        this.newImages.splice(2, 1);
+      if (!this.newImages[0]) {
+        this.newImages.splice(0, 1);
       }
     },
     validDescription: function() {
@@ -192,16 +198,7 @@ export default {
         this.errors.description = false; // и убираем ошибку
       }
 
-      const lt = /</g; // Защита от XSS уязвимостей
-      const gt = />/g;
-      const ap = /"/g;
-      const ic = /"/g;
-      this.newDescription = this.newDescription
-        .toString()
-        .replace(lt, "&lt;")
-        .replace(gt, "&gt;")
-        .replace(ap, "&#39;")
-        .replace(ic, "&#34;");
+      this.newDescription = this.preventXSS(this.newDescription);
     },
     validCount: function() {
       if (this.newCount < 1) {
@@ -240,6 +237,22 @@ export default {
           .classList.remove("edit-form__input--red"); // Убираем стили
         this.errors.category = false; // и убираем ошибку
       }
+
+      this.newCategory = this.preventXSS(this.newCategory);
+    },
+    preventXSS: function(str) {
+      if (!str) return;
+
+      const lt = /</g; // Защита от XSS уязвимостей
+      const gt = />/g;
+      const ap = /"/g;
+      const ic = /"/g;
+      return str
+        .toString()
+        .replace(lt, "&lt;")
+        .replace(gt, "&gt;")
+        .replace(ap, "&#39;")
+        .replace(ic, "&#34;");
     },
     submitChanges: function() {
       this.validName(); // Хоть методы и используются по событию потери фокуса
@@ -270,10 +283,11 @@ export default {
         if (this.$route.name === "Edit") {
           // В зависимости от страницы или диспатчим редактирвоание продукта
           this.$store.dispatch("editField", obj); // или добавляем новый
+          this.$router.go(-1);
         } else if (this.$route.name === "Create") {
           this.$store.dispatch("createField", obj);
+          this.$router.push("/page/"+this.$store.state.possiblePages);
         }
-        this.$router.push("/page/1");
       }
     }
   }

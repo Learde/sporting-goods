@@ -42,7 +42,7 @@ export default {
   },
   methods: {
     openItemPage: function() {
-      this.$store.commit('writeLastPage', this.$route.params.page);
+      this.$store.commit("writeLastPage", this.$route.params.page);
       // Открываем нужную страницу с товаром
       this.$router.push("/item/" + this.id);
     }
