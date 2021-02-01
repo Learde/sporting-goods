@@ -1,18 +1,33 @@
 <template>
   <main id="app" :class="classes">
     <div class="app__wrapper">
-      <div id="nav" class="app__nav">
-        <router-link to="/">Home</router-link> |
-        <router-link to="/about">About</router-link>
-      </div>
-      <router-view />
+      <template v-if="loading">
+        <div class="lds-default">
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+        </div>
+      </template>
+      <template v-else>
+        <router-view />
+      </template>
     </div>
   </main>
 </template>
 
 <script>
 export default {
-  beforeCreate() {
+  created() {
+    // Если есть данные о предыдущих входах, логинимся
     if (window.localStorage.login && window.localStorage.pass) {
       this.$store
         .dispatch("tryLogin", {
@@ -24,8 +39,16 @@ export default {
             this.$router.push({ name: "Home" });
         });
     }
-
-    this.$store.dispatch("getData");
+    // Вводим данные
+    this.loading = true;
+    this.$store.dispatch("getData").then(() => {
+      this.loading = false;
+    });
+  },
+  data() {
+    return {
+      loading: false
+    };
   },
   computed: {
     classes() {
@@ -80,6 +103,93 @@ body {
   & h1 {
     font-size: 2.8rem;
     margin-bottom: 2.5rem;
+  }
+}
+
+.lds-default {
+  margin: 30vh 0;
+  display: inline-block;
+  position: relative;
+  width: 80px;
+  height: 80px;
+}
+.lds-default div {
+  position: absolute;
+  width: 6px;
+  height: 6px;
+  background: rgb(199, 119, 0);
+  border-radius: 50%;
+  animation: lds-default 1.2s linear infinite;
+}
+.lds-default div:nth-child(1) {
+  animation-delay: 0s;
+  top: 37px;
+  left: 66px;
+}
+.lds-default div:nth-child(2) {
+  animation-delay: -0.1s;
+  top: 22px;
+  left: 62px;
+}
+.lds-default div:nth-child(3) {
+  animation-delay: -0.2s;
+  top: 11px;
+  left: 52px;
+}
+.lds-default div:nth-child(4) {
+  animation-delay: -0.3s;
+  top: 7px;
+  left: 37px;
+}
+.lds-default div:nth-child(5) {
+  animation-delay: -0.4s;
+  top: 11px;
+  left: 22px;
+}
+.lds-default div:nth-child(6) {
+  animation-delay: -0.5s;
+  top: 22px;
+  left: 11px;
+}
+.lds-default div:nth-child(7) {
+  animation-delay: -0.6s;
+  top: 37px;
+  left: 7px;
+}
+.lds-default div:nth-child(8) {
+  animation-delay: -0.7s;
+  top: 52px;
+  left: 11px;
+}
+.lds-default div:nth-child(9) {
+  animation-delay: -0.8s;
+  top: 62px;
+  left: 22px;
+}
+.lds-default div:nth-child(10) {
+  animation-delay: -0.9s;
+  top: 66px;
+  left: 37px;
+}
+.lds-default div:nth-child(11) {
+  animation-delay: -1s;
+  top: 62px;
+  left: 52px;
+}
+.lds-default div:nth-child(12) {
+  animation-delay: -1.1s;
+  top: 52px;
+  left: 62px;
+}
+@keyframes lds-default {
+  0%,
+  20%,
+  80%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.5);
   }
 }
 

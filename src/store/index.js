@@ -68,7 +68,7 @@ export default new Vuex.Store({
           }
           commit("fillData", JSON.parse(window.localStorage.data));
           resolve();
-        }, 250);
+        }, 500);
       });
     },
     deleteItem({ commit, state }, id) {
